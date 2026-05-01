@@ -1,0 +1,99 @@
+через NixOS config
+
+services.acpid = {
+  enable = true;
+
+  handlers = {
+    volume-up = {
+      event = "button/volumeup";
+      action = ''
+        ${pkgs.pamixer}/bin/pamixer -i 5
+        pkill -RTMIN+1 dwmblocks || true
+      '';
+    };
+
+    volume-down = {
+      event = "button/volumedown";
+      action = ''
+        ${pkgs.pamixer}/bin/pamixer -d 5
+        pkill -RTMIN+1 dwmblocks || true
+      '';
+    };
+
+    volume-mute = {
+      event = "button/mute";
+      action = ''
+        ${pkgs.pamixer}/bin/pamixer -t
+        pkill -RTMIN+1 dwmblocks || true
+      '';
+    };
+  };
+};
+
+
+ArchLinux 
+🚀 Делаем аккуратно и “как надо”
+
+1️⃣ Убедись, что acpid запущен
+
+sudo systemctl enable --now acpid
+
+2️⃣ Создаём обработчики
+
+sudo mkdir -p /etc/acpi/events
+
+🔊 Volume UP
+
+sudo nano /etc/acpi/events/volume-up
+
+event=button/volumeup
+action=/etc/acpi/volume.sh up
+
+🔉 Volume DOWN
+
+sudo nano /etc/acpi/events/volume-down
+
+event=button/volumedown
+action=/etc/acpi/volume.sh down
+
+🔇 MUTE (если тоже хочешь)
+
+sudo nano /etc/acpi/events/volume-mute
+
+event=button/mute
+action=/etc/acpi/volume.sh mute
+
+⚙️ 3️⃣ Сам скрипт
+
+sudo nano /etc/acpi/volume.sh
+
+#!/usr/bin/env bash
+
+case "$1" in
+    up)
+        pamixer -i 5
+        ;;
+    down)
+        pamixer -d 5
+        ;;
+    mute)
+        pamixer -t
+        ;;
+esac
+
+# обновление dwmblocks (если используешь)
+kill -44 $(pidof dwmblocks) 2>/dev/null
+
+Сделай исполняемым:
+
+sudo chmod +x /etc/acpi/volume.sh
+
+🔄 4️⃣ Перезапуск
+
+sudo systemctl restart acpid
+
+
+
+
+
+
