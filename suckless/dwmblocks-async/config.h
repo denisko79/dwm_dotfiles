@@ -21,6 +21,7 @@
     X("VOL ", "/home/denis/.config/dwmblocks/scripts/volume.sh", 1, 0) \
     X(" | WiFi ", "/home/denis/.config/dwmblocks/scripts/wifi.sh", 5, 0) \
     X(" | BAT ", "/home/denis/.config/dwmblocks/scripts/battery.sh", 10, 0) \
+    X(" | ", " /home/denis/.config/dwmblocks/scripts/sb-bluetooth", 30, 20) \
     X(" | ", "/home/denis/.config/dwmblocks/scripts/layout.sh", 1, 0) \
     X(" | ", "/home/denis/.config/dwmblocks/scripts/weather.sh", 600, 0) \
     X(" | ", "/home/denis/.config/dwmblocks/scripts/datetime.sh", 60, 0)
